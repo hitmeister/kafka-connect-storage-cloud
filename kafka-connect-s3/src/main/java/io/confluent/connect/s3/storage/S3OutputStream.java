@@ -41,6 +41,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,7 +118,7 @@ public class S3OutputStream extends OutputStream {
 
   private void uploadPart() throws IOException {
     uploadPart(partSize);
-    buffer.clear();
+    ((Buffer) buffer).clear();
   }
 
   private void uploadPart(final int size) throws IOException {
@@ -162,7 +163,7 @@ public class S3OutputStream extends OutputStream {
       log.error("Multipart upload failed to complete for bucket '{}' key '{}'", bucket, key);
       throw new DataException("Multipart upload failed to complete.", e);
     } finally {
-      buffer.clear();
+      ((Buffer) buffer).clear();
       multiPartUpload = null;
       close();
     }
